@@ -5,8 +5,8 @@ import java.util.*;
 public class CakeDivisor{
 
 	static final double EPS = 1e-10; // not needed ????
-//	private static int vertexNumb; // total number of vertexes
-	private static Polygon cake = new Polygon();
+	private static int vertexNumb; // total number of vertexes
+	private static List<Point> cake = new ArrayList<Point>();
 	private static double cakeArea;
 	
 	public static void main(String[] args){
@@ -18,7 +18,7 @@ public class CakeDivisor{
 	private static void createCake(){
 		Scanner scan= new Scanner(System.in);
 		try{
-			int vertexNumb = scan.nextInt();
+			vertexNumb = scan.nextInt();
 			for (int i=0;i<vertexNumb;i++){
 				double x = scan.nextDouble();
 				double y = scan.nextDouble();
@@ -29,27 +29,26 @@ public class CakeDivisor{
 		}
 	}
 	
-	private static double area(Polygon pol){
+	private static double area(List<Point> pol){
 		double res = 0;
-		for (int i = 0; i < pol.vertexNumb-1; i++){
+		for (int i = 0; i < pol.size()-1; i++){
 			res +=	(pol.get(i + 1).x - pol.get(i).x) * 
 					(pol.get(i + 1).y + pol.get(i + 1).y);
 		}
 		return Math.abs(res)/2;
 	}
 	
-//	private static double areaDiff(double angle){
-//		Point
-//	}
+	private static double areaDiff(double angle){
+		Point
+	}
 	
-	private static Polygon halfCake(double angle){
-		Polygon halfCake = new Polygon();
+	private static Point[] bisectionPoints(double angle){
 		Point[] bPoints = new Point[2]; // always 2 intersection points
 		int lowNum = 0; //number of lowest vertex
 		double lowSect = getYCoord(cake,lowNum,angle); 
 		double highSect = lowSect; // highest and lowest sections
 		double curSect;
-		for (int i=1; i<cake.vertexNumb; i++){
+		for (int i=1; i<vertexNumb; i++){
 			curSect = getYCoord(cake,i,angle);
 			if (curSect > highSect){
 				highSect = curSect;
@@ -65,7 +64,7 @@ public class CakeDivisor{
 			double curY;
 			double nextY;
 			int interCount = 0; // number of intersections
-			for (int i=0; i < cake.vertexNumb-1; i++){
+			for (int i=0; i < vertexNumb-1; i++){
 				curY = getYCoord(cake,i,angle) - curSect;
 				nextY = getYCoord(cake,i+1,angle) - curSect;
 				if (curY == 0){ // if section goes through vertex
@@ -84,7 +83,7 @@ public class CakeDivisor{
 				if (interCount == 2) break; // found all intersections
 			}
 			
-			halfCake = new Polygon();
+			List<Point> halfCake = new ArrayList<Point>();
 			halfCake.add(bPoints[0]);
 			for (int i=bPoints[0].preVertex; i<=bPoints[1].preVertex; i++){
 				halfCake.add(cake.get(i));
@@ -106,30 +105,8 @@ public class CakeDivisor{
 				}
 			}
 		}
-		halfCake.cutLine = new Line(bPoints[0],bPoints[1]);
-		return halfCake;
+		return bPoints;
 	}
-	
-//	private static Point[] linePolInter(Line line,Polygon pol){
-//		for (int i=0; i < pol.vertexNumb-1; i++){
-//			curY = getYCoord(pol,i,angle) - curSect;
-//			nextY = getYCoord(pol,i+1,angle) - curSect;
-//			if (curY == 0){ // if section goes through vertex
-//				Point intPoint = cake.get(i);
-//				intPoint.preVertex = i;
-//				bPoints[interCount] = intPoint;
-//				interCount++;
-//			}else if (curY*nextY < 0){ // if section crosses side
-//				Line side = new Line(cake.get(i),cake.get(i+1));
-//				Line section = new Line(angle,curSect);
-//				Point intPoint = linesInter(side,section);
-//				intPoint.preVertex = i;
-//				bPoints[interCount] = intPoint;
-//				interCount++;
-//			}
-//			if (interCount == 2) break; // found all intersections
-//		}
-//	}
 	
 	private static Point linesInter(Line lOne,Line lTwo){
 		double denom = lOne.a*lTwo.b - lTwo.a*lOne.b;
@@ -143,7 +120,7 @@ public class CakeDivisor{
 		}
 	}
 	
-	private static double getYCoord(Polygon pol,int vert,double angle){
+	private static double getYCoord(List<Point> pol,int vert,double angle){
 		double sinA = Math.sin(angle);
 		double cosA = Math.cos(angle);
 		return sinA*pol.get(vert).x + cosA*pol.get(vert).y; 
@@ -183,25 +160,6 @@ public class CakeDivisor{
 				this.b = 1;
 				this.c = -perpend/Math.cos(angle);
 			}
-		}
-		
-		public double perpend(){
-			return c/Math.sqrt(a*a+b*b)*Math.signum(-c/b);
-		}
-	}
-	
-	private static class Polygon{
-		public List<Point> vertxs = new ArrayList<Point>();
-		public Line cutLine;
-		public int vertexNumb = 0;
-		
-		public void add(Point p){
-			this.vertxs.add(p);
-			vertexNumb++;
-		}
-		
-		public Point get(int i){
-			return this.vertxs.get(i);
 		}
 	}
 }
