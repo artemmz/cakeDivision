@@ -16,7 +16,6 @@ public class CakeDivisor{
 	
 	public static void main(String[] args){
 		createCake();
-		cakeArea = area(cake);
 		double minAngle = 0;
 		double maxAngle = Math.PI/2;
 		double curAngle = minAngle; 
@@ -59,6 +58,10 @@ public class CakeDivisor{
 			}
 			checkConvex(cake);
 			cake.add(cake.get(0));
+			cakeArea = area(cake);
+			if (cakeArea == 0){
+				exitBirthday();
+			}
 		}catch(InputMismatchException ex){
 			exitBirthday();
 		}
