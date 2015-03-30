@@ -1,5 +1,3 @@
-package birthday;
-
 import java.util.*;
 
 /**
@@ -51,7 +49,7 @@ public class CakeDivisor{
 			if (vertexNumb < 3){
 				exitBirthday();
 			}
-			for (int i=0;i<vertexNumb;i++){
+			for (int i=0; i<vertexNumb; i++){
 				double x = scan.nextDouble();
 				double y = scan.nextDouble();
 				cake.add(new Point(x,y));
@@ -154,12 +152,10 @@ public class CakeDivisor{
 		double sMax = cakeArea;
 		while (Math.abs(sMax-sMin) > EPS*cakeArea){
 			curSect = (lowSect + highSect)/2;
-			double curY;
-			double nextY;
 			int interCount = 0;
 			for (int i=0; i < vertexNumb; i++){
-				curY = getYCoord(cake.get(i),angle) - curSect;
-				nextY = getYCoord(cake.get(i+1),angle) - curSect;
+				double curY = getYCoord(cake.get(i),angle) - curSect;
+				double nextY = getYCoord(cake.get(i+1),angle) - curSect;
 				if (curY*nextY < 0){ // if section crosses side
 					Line side = new Line(cake.get(i),cake.get(i+1));
 					Line section = new Line(angle,curSect);
