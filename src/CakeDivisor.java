@@ -43,7 +43,7 @@ public class CakeDivisor{
 	}
 	
 	private static void createCake(){
-		Scanner scan= new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		try{
 			vertexNumb = scan.nextInt();
 			if (vertexNumb < 3){
